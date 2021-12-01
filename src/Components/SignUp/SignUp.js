@@ -1,31 +1,162 @@
 import * as React from "react";
+import { useState, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import "./SignUp.css";
+import { makeStyles } from "@mui/styles";
+import { Alert, Button, CardActions, TextField } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContext";
+// Things I don't know as of 2018 Dan Abrammov
 
 const SignUp = () => {
+  // style hook from mui
+  const useStyles = makeStyles({
+    text1: {
+      color: "grey",
+      textAlign: "center",
+    },
+    card2: {
+      height: "5vh",
+      marginTop: "2%",
+    },
+  });
+  const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState("");
+  const history = useNavigate();
+  const { signUp } = useContext(AuthContext);
+  // console.log(signUp);
+
+  const handelSignUp = async () => {
+    if (file !== null) {
+      setError("Upload Profile");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+    try {
+      setError("");
+      setLoading(true);
+      const userData = await signUp(email, password);
+      const uid = userData.user.uid;
+      console.log(uid);
+    } catch (err) {
+      setError(err);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+  };
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
+    <div className="signup_wrapper">
+      <div className="signup_card">
+        <Card variant="outlined">
+          <div className="logo_image">
+            <img
+              src="https://img.icons8.com/color/452/instagram-reel.png"
+              alt="logo"
+              style={{ width: "80px" }}
+            />
+          </div>
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="subtitle-1"
+              component="div"
+              className={classes.text1}
+            >
+              signup to see amazing videos
+            </Typography>
+            {error !== "" && <Alert severity="error">{error}</Alert>}
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              fullWidth={true}
+              margin="dense"
+              size="small"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+              fullWidth={true}
+              margin="dense"
+              size="small"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              fullWidth={true}
+              margin="dense"
+              size="small"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Button
+              color="primary"
+              size="small"
+              fullWidth={true}
+              variant="outlined"
+              margin="dense"
+              startIcon={<CloudUploadIcon />}
+              component="label"
+            >
+              Upload Profile
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+            </Button>
+          </CardContent>
+
+          <CardActions>
+            <Button
+              color="primary"
+              fullWidth={true}
+              variant="contained"
+              margin="dense"
+              disable={loading}
+              onClick={handelSignUp}
+            >
+              Sign Up
+            </Button>
+          </CardActions>
+
+          <CardContent>
+            <Typography className={classes.text1}>
+              By signing up , you agree out terms and conditions
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card variant="outlined" className={classes.card2}>
+          <Typography className={classes.text1}>
+            Don't have an account?{" "}
+            <Link to="/Login" style={{ textDecoration: "none" }}>
+              Sign Up
+            </Link>
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        </Card>
+      </div>
+    </div>
   );
 };
 

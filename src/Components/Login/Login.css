@@ -3,9 +3,18 @@
   justify-content: center;
 }
 
-.signup_card {
+.signup_bg_image {
   width: 27vw;
   margin-top: 3%;
+  position: relative;
+}
+
+.card_img {
+  position: absolute;
+  left: 143px;
+  top: 93px;
+  height: 423px;
+  width: 241px;
 }
 
 .logo_image {
@@ -17,13 +26,4 @@
 
 .logo_image img {
   margin-top: 2%;
-}
-
-@media screen and (max-width: 400px) {
-  .signup_card {
-    width: 70%;
-  }
-  .logo_image img {
-    width: 35%;
-  }
 }
