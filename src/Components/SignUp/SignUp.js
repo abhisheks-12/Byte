@@ -9,6 +9,7 @@ import { Alert, Button, CardActions, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
+import { database, storage } from "../../Firebase/Config";
 // Things I don't know as of 2018 Dan Abrammov
 
 const SignUp = () => {
@@ -30,14 +31,14 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [file, setFile] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
-  const history = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { signUp } = useContext(AuthContext);
   // console.log(signUp);
 
   const handelSignUp = async () => {
-    if (file !== null) {
-      setError("Upload Profile");
+    if (!file) {
+      setError("Upload Profile Picture");
       setTimeout(() => {
         setError("");
       }, 2000);
@@ -49,6 +50,39 @@ const SignUp = () => {
       const userData = await signUp(email, password);
       const uid = userData.user.uid;
       console.log(uid);
+
+      const upload = storage.ref(`/users/${uid}/ProfileImage`).put(file);
+      upload.on("state_changed", fn1, fn2, fn3);
+
+      function fn1(snapshot) {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress} done`);
+      }
+
+      function fn2(err) {
+        setError(err);
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+        setLoading(false);
+        return;
+      }
+
+      function fn3() {
+        upload.snapshot.ref.getDownloadURL().then((url) => {
+          console.log(url);
+          database.users.doc(uid).set({
+            email: email,
+            userId: uid,
+            fullName: name,
+            profileUrl: url,
+            // createdAt: database.getTimeStamp,
+          });
+        });
+        setLoading(false);
+        navigate("/");
+      }
     } catch (err) {
       setError(err);
       setTimeout(() => {
@@ -76,7 +110,7 @@ const SignUp = () => {
               component="div"
               className={classes.text1}
             >
-              signup to see amazing videos
+              see amazing videos
             </Typography>
             {error !== "" && <Alert severity="error">{error}</Alert>}
             <TextField
@@ -149,7 +183,7 @@ const SignUp = () => {
         </Card>
         <Card variant="outlined" className={classes.card2}>
           <Typography className={classes.text1}>
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link to="/Login" style={{ textDecoration: "none" }}>
               Sign Up
             </Link>

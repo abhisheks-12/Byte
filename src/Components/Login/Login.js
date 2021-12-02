@@ -10,11 +10,10 @@ import { CarouselProvider, Slider, Slide, Image } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const store = useContext(AuthContext);
-  console.log(store);
-
   // style hook from mui
   const useStyles = makeStyles({
     text1: {
@@ -30,6 +29,28 @@ const Login = () => {
     },
   });
   const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handelLogin = async () => {
+    try {
+      setLoading(true);
+      await login(email, password);
+      navigate("/");
+    } catch (err) {
+      setError(err);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+      setLoading(false);
+    }
+    return;
+  };
 
   return (
     <div className="signup_wrapper">
@@ -88,11 +109,7 @@ const Login = () => {
             />
           </div>
           <CardContent>
-            {true && (
-              <Alert severity="error">
-                This is an error alert — check it out!
-              </Alert>
-            )}
+            {error && <Alert severity="error"> User not found !!</Alert>}
             <TextField
               id="outlined-basic"
               label="Email"
@@ -100,6 +117,8 @@ const Login = () => {
               fullWidth={true}
               margin="dense"
               size="small"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               id="outlined-basic"
@@ -108,6 +127,8 @@ const Login = () => {
               fullWidth={true}
               margin="dense"
               size="small"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </CardContent>
 
@@ -117,6 +138,8 @@ const Login = () => {
               fullWidth={true}
               variant="contained"
               margin="dense"
+              onClick={handelLogin}
+              disable={loading}
             >
               Log In
             </Button>
