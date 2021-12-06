@@ -37,6 +37,14 @@ const SignUp = () => {
   // console.log(signUp);
 
   const handelSignUp = async () => {
+    if (password.length < 6) {
+      setError("Enter password more than 6 char");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+
     if (!file) {
       setError("Upload Profile Picture");
       setTimeout(() => {
@@ -81,7 +89,7 @@ const SignUp = () => {
           });
         });
         setLoading(false);
-        navigate("/");
+        navigate("/login");
       }
     } catch (err) {
       setError(err);
