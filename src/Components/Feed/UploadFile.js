@@ -18,7 +18,7 @@ function UploadFile({ user }) {
       setError("Please Select File First");
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 1000);
       return;
     }
     if (file.size / (1024 * 1024) > 100) {
@@ -29,7 +29,7 @@ function UploadFile({ user }) {
       return;
     }
     // console.log(file);
-    console.log(user);
+    console.log(user.postId);
 
     setLoading(true);
     let uid = uuidv4();
@@ -66,10 +66,10 @@ function UploadFile({ user }) {
 
         database.posts
           .add(userData)
-          .then((ref) => {
-            database.users.doc(user.userId).update({
-              postId:
-                user.postId !== null ? [...user.postId, ref.id] : [ref.id],
+          .then(async (ref) => {
+            await database.users.doc(user.userId).update({
+              postIds:
+                user.postIds != null ? [...user.postIds, ref.id] : [ref.id],
             });
           })
           .then(() => {
@@ -79,7 +79,7 @@ function UploadFile({ user }) {
             setError(err);
             setTimeout(() => {
               setError("");
-            });
+            }, 2000);
           });
       });
     }
@@ -96,7 +96,6 @@ function UploadFile({ user }) {
             accept="video/"
             id="upload_input"
             style={{ display: "none" }}
-            // value={file}
             onChange={(e) => handelUpload(e.target.files[0])}
           />
           <label htmlFor="upload_input">
@@ -105,7 +104,6 @@ function UploadFile({ user }) {
               color="secondary"
               component="span"
               disabled={loading}
-              // onClick={handelUpload}
             >
               <VideoFileIcon /> Upload
             </Button>

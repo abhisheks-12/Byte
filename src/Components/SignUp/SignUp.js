@@ -57,7 +57,7 @@ const SignUp = () => {
       setLoading(true);
       const userData = await signUp(email, password);
       const uid = userData.user.uid;
-      console.log(uid);
+      // console.log(uid);
 
       const upload = storage.ref(`/users/${uid}/ProfileImage`).put(file);
       upload.on("state_changed", fn1, fn2, fn3);
@@ -85,7 +85,7 @@ const SignUp = () => {
             userId: uid,
             fullName: name,
             profileUrl: url,
-            // createdAt: database.getTimeStamp,
+            createdAt: database.getTimeStamp(),
           });
         });
         setLoading(false);

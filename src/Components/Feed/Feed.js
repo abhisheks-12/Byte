@@ -4,6 +4,7 @@ import { useContext } from "react";
 import UploadFile from "./UploadFile";
 import { useEffect } from "react";
 import { database } from "../../Firebase/Config";
+import Post from "../Post/Post";
 
 const Feed = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -18,8 +19,6 @@ const Feed = () => {
     };
   }, [user]);
 
-  // console.log(userData);
-  
   return (
     <div
       className="feed"
@@ -35,6 +34,7 @@ const Feed = () => {
         <button onClick={logOut}>Logout</button>
       </div>
       <UploadFile user={userData} name={"Abhishek"} />
+      <Post user={userData} />
     </div>
   );
 };
