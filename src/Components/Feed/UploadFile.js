@@ -68,7 +68,7 @@ function UploadFile({ user }) {
           .add(userData)
           .then(async (ref) => {
             await database.users.doc(user.userId).update({
-              postIds:
+              pId:
                 user.postIds != null ? [...user.postIds, ref.id] : [ref.id],
             });
           })

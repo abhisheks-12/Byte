@@ -1,7 +1,9 @@
-import { CircularProgress } from "@mui/material";
+import { Avatar, CircularProgress } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { database } from "../../Firebase/Config";
+import Like from "../Videos/Like";
 import Videos from "../Videos/Videos";
+import "./Post.css";
 
 const Post = ({ user }) => {
   const [post, setPost] = useState(null);
@@ -13,14 +15,14 @@ const Post = ({ user }) => {
       .onSnapshot((snapshot) => {
         setPost(
           snapshot.docs.map((doc) => ({
-            postId: doc.id,
+            pId: doc.id,
             ...doc.data(),
           }))
         );
       });
     return unSub;
   }, []);
-  console.log(post);
+  // console.log(post);
 
   return (
     <div>
@@ -31,7 +33,16 @@ const Post = ({ user }) => {
           {post.map((post, idx) => (
             <React.Fragment key={idx}>
               <div className="videos">
+                {/* Imported video comp and sending data s props */}
                 <Videos videoSrc={post.postUrl} />
+                <div
+                  className="fa"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <Avatar alt="Remy Sharp" src={user.profileUrl} />
+                  <h4>{user.fullName}</h4>
+                </div>
+                  <Like userData={user} postData={post} className="likes" />
               </div>
             </React.Fragment>
           ))}
