@@ -22,9 +22,9 @@ export const auth = firebase.auth();
 
 export const database = {
   users: firestore.collection("users"),
-  posts:firestore.collection("posts"),
+  posts: firestore.collection("posts"),
+  comments: firestore.collection("comments"),
   getTimeStamp: firebase.firestore.FieldValue.serverTimestamp,
 };
 
 export const storage = firebase.storage();
-

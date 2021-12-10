@@ -28,7 +28,7 @@
 
 .icons_style {
   position: absolute;
-  bottom: 13%;
+  bottom: 20%;
   left: 85%;
 }
 
@@ -40,4 +40,44 @@
 .unlike {
   cursor: pointer;
   color: white;
+}
+
+.commnet_box {
+  position: absolute;
+  cursor: pointer;
+  color: white;
+  bottom: 13%;
+  left: 85%;
+}
+
+.modal_container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.video_modal {
+  width: 70%;
+  height: 100%;
+}
+
+.comment_modal {
+  width: 30%;
+  height: 100%;
+}
+
+.modal_video {
+  width: 150px;
+}
+
+.card1 {
+  height: 62.5vh;
+}
+
+.userName {
+  color: blue;
+}
+
+.all_comments {
+  padding: 10px;
 }

@@ -68,8 +68,7 @@ function UploadFile({ user }) {
           .add(userData)
           .then(async (ref) => {
             await database.users.doc(user.userId).update({
-              pId:
-                user.postIds != null ? [...user.postIds, ref.id] : [ref.id],
+              pId: user.postIds != null ? [...user.postIds, ref.id] : [ref.id],
             });
           })
           .then(() => {
@@ -82,6 +81,7 @@ function UploadFile({ user }) {
             }, 2000);
           });
       });
+      setFile(null);
     }
   };
 
