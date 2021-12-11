@@ -5,9 +5,10 @@ import UploadFile from "./UploadFile";
 import { useEffect } from "react";
 import { database } from "../../Firebase/Config";
 import Post from "../Post/Post";
+import Navbar from "../Navbar/Navbar";
 
 const Feed = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
@@ -20,22 +21,26 @@ const Feed = () => {
   }, [user]);
 
   return (
-    <div
-      className="feed"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <div className="comp" style={{ width: "50%" }}>
-        <h1>Welcome to feed</h1>
+    <>
+      <Navbar userData={userData} />
+      <div
+        className="feed"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        {/* <div className="comp" style={{ width: "50%" }}>
+          <h1>Welcome to feed</h1>
         <button onClick={logOut}>Logout</button>
+        </div> */}
+
+        <UploadFile user={userData} name={"Abhishek"} />
+        <Post user={userData} />
       </div>
-      <UploadFile user={userData} name={"Abhishek"} />
-      <Post user={userData} />
-    </div>
+    </>
   );
 };
 

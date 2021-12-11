@@ -5,14 +5,7 @@ import { database } from "../../Firebase/Config";
 const GetComment = ({ postData }) => {
   const [comments, setComments] = useState(null);
 
-  // useEffect(() => {
-  //   const arr = [];
-  //   for (let i = 0; i < postData.comments.length; i++) {
-  //     const data = database.comments.docs(postData.comments[i]).get();
-  //     arr.push(data.data());
-  //   }
-  //   setComments(arr);
-  // }, [postData]);
+
 
   useEffect(() => {
     const unSub = database.comments.onSnapshot((snapshot) => {

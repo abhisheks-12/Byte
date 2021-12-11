@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Feed from "./Components/Feed/Feed";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import Profile from "./Components/Profile/Profile";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<PrivateRoute />}>
+            <Route exact path="/profile/:id" element={<Profile />} />
             <Route exact path="/" element={<Feed />} />
           </Route>
           <Route path="/login" element={<Login />} />
@@ -22,4 +24,3 @@ function App() {
 }
 
 export default App;
-
