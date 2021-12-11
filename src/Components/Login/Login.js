@@ -150,9 +150,7 @@ const Login = () => {
               color="primary"
               variant="subtitle"
               className={classes.text2}
-            >
-              Forgot Password ?
-            </Typography>
+            ></Typography>
           </CardContent>
         </Card>
         <Card variant="outlined" className={classes.card2}>

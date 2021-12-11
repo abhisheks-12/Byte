@@ -193,7 +193,7 @@ const SignUp = () => {
           <Typography className={classes.text1}>
             Already have an account?{" "}
             <Link to="/Login" style={{ textDecoration: "none" }}>
-              Sign Up
+              Login
             </Link>
           </Typography>
         </Card>

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 
 const Videos = ({ videoSrc }) => {
   
+  
   const handelMute = (e) => {
     e.preventDefault();
     e.target.muted = !e.target.muted;

@@ -1,21 +1,14 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -61,8 +54,6 @@ export default function Navbar({ userData }) {
   const handelBannerClick = () => {
     navigate("/");
   };
-
-
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -135,7 +126,11 @@ export default function Navbar({ userData }) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <HomeIcon fontSize="large" style={{ marginLeft: "10px" }} />
+              <HomeIcon
+                fontSize="large"
+                style={{ marginLeft: "10px" }}
+                onClick={handelBannerClick}
+              />
               <Avatar alt="Remy Sharp" src={userData.profileUrl} />
             </IconButton>
           </Box>

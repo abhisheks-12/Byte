@@ -1,14 +1,16 @@
-import { CircularProgress, Typography } from "@mui/material";
+import { Avatar, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { database } from "../../Firebase/Config";
 import Navbar from "../Navbar/Navbar";
+import Videos from "../Videos/Videos";
 import "./Profile.css";
 
 function Profile() {
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState(null);
+  const [control, setControl] = useState(false);
 
   useEffect(() => {
     database.users.onSnapshot((snapshot) => {
@@ -31,7 +33,7 @@ function Profile() {
     });
   }, [userData]);
 
-  console.log(userData);
+  console.log(posts);
 
   return (
     <div>
@@ -54,11 +56,32 @@ function Profile() {
                   </div>
                 </div>
               ))}
-              <hr/>
+              <hr style={{ marginTop: "1rem" }} />
             </div>
           </div>
         </>
       )}
+      <div
+        className="all_videos "
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        {posts &&
+          posts.map((data) => (
+            <div>
+              <video
+                src={data.postUrl}
+                style={{
+                  height: "60vh",
+                  padding: "10px",
+                  borderRadius: "25px",
+                }}
+                controls={control}
+                autoPlay
+                onMouseOver={() => setControl(true)}
+              />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
